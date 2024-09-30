@@ -9,6 +9,6 @@ Limitation:
   1. One has the manually enter the from and to address in the source code.
   2. One has to convert this into an .exe file to avoid suspicion.
   3. Needs an internet connection to send the data which the victim might not be having while running it.
-  4. Relys on victim's lack of awareness.
+  4. Relies on victim's lack of awareness.
 
 To get app password(as google changed its security policy to allow only app passwords generated), check an online tutorial in youtube.
