@@ -12,3 +12,5 @@ Limitation:
   4. Relys on victim's lack of awareness.
 
 To get app password(as google changed its security policy to allow only app passwords generated), check an online tutorial in youtube.
+
+## STRICTLY FOR EDUCATIONAL PURPOSES ONLY ##
